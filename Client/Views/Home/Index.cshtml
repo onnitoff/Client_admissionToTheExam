@@ -1,0 +1,20 @@
+﻿<button id="Button">Click me</button>
+<div class="container_result">
+    <div id="Result"></div>
+</div>
+
+
+
+@await Html.PartialAsync("DataPartial")
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        console.log("test")
+        $("#Button").on("click", function () {
+            $.get("/Home/GetData", function (data) {
+                $("#Result").html(data);
+            });
+        });
+    });
+</script>

@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    @await Html.PartialAsync("MetatagsPartial")
+    @await Html.PartialAsync("CssPartial")
+</head>
+<body>
+    <div class="wrapper">
+        @await Html.PartialAsync("HeaderPartial")
+        
+
+        <div class="content">
+            <div class="con">
+                <div class="content-map">
+                    <div class="our-services">
+                        <div class="container">
+                            <div class="our-services__row">
+                                <div class="our-services__pretitle">make-up water preparation</div>
+                                <h1>Our services</h1>
+                                <div class="our-services__text">Calculation and design of water treatment plants for thermal power plants</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="renderBody">
+                        @RenderBody()
+                    </div>
+                    @await Html.PartialAsync("ContentPartial")
+                </div>
+            </div>
+        </div>
+
+        @await Html.PartialAsync("FooterPartial")
+    </div>
+</body>
+</html>
