@@ -1,5 +1,6 @@
 using Client.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using System.Diagnostics;
 
 namespace Client.Controllers
@@ -7,10 +8,12 @@ namespace Client.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IConfiguration configuration)
         {
             _logger = logger;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -21,9 +24,31 @@ namespace Client.Controllers
         [HttpGet]
         public IActionResult GetData()
         {
-            string data = "some text";
+            Dictionary<int, string> data = GetDb();
 
             return PartialView("DataPartial", data);
+        }
+
+        [HttpGet]
+        public Dictionary<int, string?> GetDb()
+        {
+            var connectionString = _configuration.GetConnectionString("MyDb");
+            _logger.LogInformation($"ConnectionString: {connectionString}");
+
+            using var connection = new SqlConnection(connectionString);
+            connection.Open();
+
+            using var command = connection.CreateCommand();
+            command.CommandText = @"SELECT * FROM MyTable";
+
+            using var reader = command.ExecuteReader();
+
+            var data = new Dictionary<int, string>();
+            while (reader.Read())
+            {
+                data[reader.GetInt32(0)] = reader.GetString(1);
+            }
+            return data;
         }
 
         public IActionResult Privacy()
