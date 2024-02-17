@@ -24,7 +24,7 @@ namespace Client.Controllers
         [HttpGet]
         public IActionResult GetData()
         {
-            Dictionary<int, string> data = GetDb();
+            Dictionary<int, string?> data = GetDb();
 
             return PartialView("DataPartial", data);
         }
@@ -43,7 +43,7 @@ namespace Client.Controllers
 
             using var reader = command.ExecuteReader();
 
-            var data = new Dictionary<int, string>();
+            var data = new Dictionary<int, string?>();
             while (reader.Read())
             {
                 data[reader.GetInt32(0)] = reader.GetString(1);
