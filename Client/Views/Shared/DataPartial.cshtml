@@ -1,3 +1,16 @@
-﻿@model string
+﻿@model Dictionary<int, string>
 
-<div>@Model</div>
+
+@if(Model != null)
+{
+    <ul>
+        @foreach (var str in Model)
+        {
+            <li>Ключ: @str.Key, Значение: @str.Value</li>
+        }
+    </ul>
+}
+else 
+{
+    <div>@Model</div>
+}
