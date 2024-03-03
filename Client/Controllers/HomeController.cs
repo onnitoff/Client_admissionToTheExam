@@ -51,6 +51,19 @@ namespace Client.Controllers
             return data;
         }
 
+        [HttpPost]
+        public void PostData(string text)
+        {
+            var connectionString = _configuration.GetConnectionString("MyDb");
+            _logger.LogInformation($"ConnectionString: {connectionString}");
+
+            using var connection = new SqlConnection(connectionString);
+            connection.Open();
+
+            using var command = connection.CreateCommand();
+            command.CommandText = $"INSERT INTO VALUES ('{text}')";
+        }
+
         public IActionResult Privacy()
         {
             return View();
